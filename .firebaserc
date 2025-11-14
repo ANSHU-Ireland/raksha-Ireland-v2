@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "raksha-ireland-d8840"
+  },
+  "targets": {
+    "raksha-ireland-d8840": {
+      "hosting": {
+        "admin": [
+          "raksha-ireland-d8840"
+        ]
+      }
+    }
+  }
+}

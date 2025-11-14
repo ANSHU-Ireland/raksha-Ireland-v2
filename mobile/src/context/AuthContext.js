@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '../utils/SafeAsyncStorage';
 import axios from 'axios';
 import { API_URL } from '../config/api';
 

@@ -1,8 +1,11 @@
+// Load polyfills first to prevent native module crashes
+import './polyfills';
+
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import SafeAsyncStorage as AsyncStorage from './src/utils/SafeAsyncStorage';
 import { LocationProvider } from './src/context/LocationContext';
 import { AuthProvider } from './src/context/AuthContext';
 

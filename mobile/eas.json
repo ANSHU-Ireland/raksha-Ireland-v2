@@ -1,0 +1,37 @@
+{
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "expo-go": {
+      "channel": "expo-go",
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "ios": {
+        "simulator": false
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "anshu.kumar@ucdconnect.ie",
+        "appleTeamId": "LZ952SM8Q9",
+        "ascAppId": "6754849591",
+        "bundleIdentifier": "com.rakshaireland.emergency"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./android-service-account.json",
+        "track": "internal"
+      }
+    }
+  },
+  "cli": {
+    "version": ">= 2.0.0"
+  }
+}
