@@ -1,0 +1,21 @@
+{
+  "name": "raksha-ireland",
+  "version": "1.0.0",
+  "description": "Emergency SOS System - Mobile App, Admin Panel, and Backend",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../mobile && npm install && cd ../admin && npm install",
+    "start:backend": "cd backend && npm start",
+    "start:mobile": "cd mobile && npm start",
+    "start:admin": "cd admin && npm run dev"
+  },
+  "keywords": [
+    "emergency",
+    "sos",
+    "react-native",
+    "nextjs",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+

@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Raksha Ireland",
+    "slug": "raksha-ireland",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ie.raksha.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Raksha needs your location to send SOS alerts to nearby users.",
+        "NSLocationAlwaysUsageDescription": "Raksha needs your location to receive SOS alerts from nearby users."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "ie.raksha.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
+
