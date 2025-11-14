@@ -6,7 +6,6 @@ import {
   StyleSheet,
   ActivityIndicator 
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const Button = ({ 
   title, 
@@ -19,7 +18,11 @@ const Button = ({
   size = 'medium'
 }) => {
   const getButtonStyles = () => {
-    const baseStyles = [styles.button, styles[size]];
+    const sizeStyle = size === 'small' ? styles.small : 
+                     size === 'large' ? styles.large : 
+                     styles.medium;
+    
+    const baseStyles = [styles.button, sizeStyle];
     
     if (variant === 'primary') {
       return [...baseStyles, styles.primaryButton];
@@ -33,7 +36,11 @@ const Button = ({
   };
 
   const getTextStyles = () => {
-    const baseStyles = [styles.buttonText, styles[`${size}Text`]];
+    const sizeTextStyle = size === 'small' ? styles.smallText : 
+                         size === 'large' ? styles.largeText : 
+                         styles.mediumText;
+    
+    const baseStyles = [styles.buttonText, sizeTextStyle];
     
     if (variant === 'secondary') {
       return [...baseStyles, styles.secondaryText];
@@ -42,38 +49,20 @@ const Button = ({
     return baseStyles;
   };
 
-  if (variant === 'primary') {
-    return (
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={disabled || loading}
-        style={[...getButtonStyles(), disabled && styles.disabled, style]}
-      >
-        <LinearGradient
-          colors={disabled ? ['#cccccc', '#999999'] : ['#FF6B35', '#FF8E53']}
-          style={styles.gradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-        >
-          {loading ? (
-            <ActivityIndicator color="#ffffff" size="small" />
-          ) : (
-            <Text style={[...getTextStyles(), textStyle]}>{title}</Text>
-          )}
-        </LinearGradient>
-      </TouchableOpacity>
-    );
-  }
-
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled || loading}
-      style={[...getButtonStyles(), disabled && styles.disabled, style]}
+      style={[
+        ...getButtonStyles(), 
+        disabled && styles.disabled, 
+        style
+      ]}
+      activeOpacity={0.7}
     >
       {loading ? (
         <ActivityIndicator 
-          color={variant === 'secondary' ? '#FF6B35' : '#ffffff'} 
+          color={variant === 'secondary' ? '#1a1a1a' : '#ffffff'} 
           size="small" 
         />
       ) : (
@@ -85,16 +74,9 @@ const Button = ({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 8,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  gradient: {
-    flex: 1,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
   },
   small: {
     height: 40,
@@ -109,15 +91,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   primaryButton: {
-    // Gradient handled in component
+    backgroundColor: '#1a1a1a',
   },
   secondaryButton: {
     backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#FF6B35',
+    borderWidth: 1,
+    borderColor: '#1a1a1a',
   },
   dangerButton: {
-    backgroundColor: '#DC3545',
+    backgroundColor: '#c00',
   },
   disabled: {
     opacity: 0.6,
@@ -125,6 +107,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: '600',
     color: '#ffffff',
+    fontFamily: 'System',
   },
   smallText: {
     fontSize: 14,
@@ -136,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   secondaryText: {
-    color: '#FF6B35',
+    color: '#1a1a1a',
   },
 });
 

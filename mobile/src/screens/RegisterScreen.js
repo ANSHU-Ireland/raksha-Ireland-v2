@@ -88,6 +88,7 @@ export default function RegisterScreen() {
           <TouchableOpacity
             style={[
               styles.sexButton,
+              styles.sexButtonLeft,
               formData.sex === 'Male' && styles.sexButtonActive
             ]}
             onPress={() => setFormData({ ...formData, sex: 'Male' })}
@@ -100,6 +101,7 @@ export default function RegisterScreen() {
           <TouchableOpacity
             style={[
               styles.sexButton,
+              styles.sexButtonMiddle,
               formData.sex === 'Female' && styles.sexButtonActive
             ]}
             onPress={() => setFormData({ ...formData, sex: 'Female' })}
@@ -112,6 +114,7 @@ export default function RegisterScreen() {
           <TouchableOpacity
             style={[
               styles.sexButton,
+              styles.sexButtonRight,
               formData.sex === 'Other' && styles.sexButtonActive
             ]}
             onPress={() => setFormData({ ...formData, sex: 'Other' })}
@@ -219,7 +222,6 @@ const styles = StyleSheet.create({
   sexContainer: {
     flexDirection: 'row',
     marginBottom: 16,
-    gap: 8
   },
   sexButton: {
     flex: 1,
@@ -230,6 +232,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff'
+  },
+  sexButtonLeft: {
+    marginRight: 4
+  },
+  sexButtonMiddle: {
+    marginHorizontal: 4
+  },
+  sexButtonRight: {
+    marginLeft: 4
   },
   sexButtonActive: {
     backgroundColor: '#1a1a1a',
