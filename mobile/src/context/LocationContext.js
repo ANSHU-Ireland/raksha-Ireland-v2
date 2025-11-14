@@ -55,47 +55,85 @@ export const LocationProvider = ({ children }) => {
   };
 
   const connectSocket = () => {
-    const socketUrl = API_URL.replace('/api', '');
-    const newSocket = io(socketUrl, {
-      transports: ['websocket'],
-      reconnection: true
-    });
-
-    newSocket.on('connect', () => {
-      console.log('Socket connected');
-      if (location) {
-        newSocket.emit('register-location', {
-          userId: user.id,
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude
-        });
-      }
-    });
-
-    newSocket.on('sos-alert', async (alertData) => {
-      // Show notification
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: 'SOS Alert',
-          body: `${alertData.userName} needs help nearby!`,
-          data: alertData
-        },
-        trigger: null
+    try {
+      const socketUrl = API_URL.replace('/api', '');
+      const newSocket = io(socketUrl, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionAttempts: 5,
+        timeout: 20000
       });
-    });
 
-    setSocket(newSocket);
+      newSocket.on('connect', () => {
+        console.log('Socket connected');
+        if (location && user) {
+          newSocket.emit('register-location', {
+            userId: user.id,
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          });
+        }
+      });
+
+      newSocket.on('connect_error', (error) => {
+        console.warn('Socket connection error:', error.message);
+      });
+
+      newSocket.on('disconnect', (reason) => {
+        console.log('Socket disconnected:', reason);
+      });
+
+      newSocket.on('sos-alert', async (alertData) => {
+        try {
+          // Show notification
+          await Notifications.scheduleNotificationAsync({
+            content: {
+              title: 'SOS Alert',
+              body: `${alertData.userName} needs help nearby!`,
+              data: alertData
+            },
+            trigger: null
+          });
+        } catch (error) {
+          console.error('Notification error:', error);
+        }
+      });
+
+      setSocket(newSocket);
+    } catch (error) {
+      console.error('Socket setup error:', error);
+    }
   };
 
   const startLocationTracking = async () => {
     try {
+      // Check if location services are enabled
+      const { status } = await Location.getForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.warn('Location permission not granted');
+        return;
+      }
+
       const currentLocation = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced
+        accuracy: Location.Accuracy.Balanced,
+        timeout: 10000,
+        maximumAge: 60000
       });
       setLocation(currentLocation);
       updateLocationOnServer(currentLocation);
     } catch (error) {
       console.error('Location error:', error);
+      // Try to get last known location as fallback
+      try {
+        const lastLocation = await Location.getLastKnownPositionAsync();
+        if (lastLocation) {
+          setLocation(lastLocation);
+          updateLocationOnServer(lastLocation);
+        }
+      } catch (fallbackError) {
+        console.error('Fallback location error:', fallbackError);
+      }
     }
   };
 

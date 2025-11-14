@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import SafeAsyncStorage as AsyncStorage from './src/utils/SafeAsyncStorage';
+import AsyncStorage from './src/utils/SafeAsyncStorage';
 import { LocationProvider } from './src/context/LocationContext';
 import { AuthProvider } from './src/context/AuthContext';
 
@@ -19,6 +19,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [initialRoute, setInitialRoute] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     checkAuth();
@@ -29,12 +30,15 @@ export default function App() {
       const token = await AsyncStorage.getItem('token');
       setInitialRoute(token ? 'Home' : 'Register');
     } catch (error) {
+      console.error('Auth check error:', error);
       setInitialRoute('Register');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (!initialRoute) {
-    return null;
+  if (isLoading || !initialRoute) {
+    return null; // Or return a loading screen component
   }
 
   return (
